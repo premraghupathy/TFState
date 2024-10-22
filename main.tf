@@ -47,6 +47,17 @@ resource "aws_dynamodb_table" "prem_tf_state_lock_dyna" {
   }
 }
 
+terraform {
+  backend "s3" {
+    bucket = "prem-tf-state-s3"
+    key = "global/s3/terraform.tfstate"
+    region = "us-east-2"
+
+    dynamodb_table = "prem-tf-state-lock-dyna"
+    encrypt = true
+  }
+}
+
 output "prem_tf_state_s3_arn" {
   value = aws_s3_bucket.prem_tf_state_s3.arn
   description = "Prem TF state S3 ARN"
