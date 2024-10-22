@@ -51,7 +51,7 @@ terraform {
   backend "s3" {
     bucket = "pprem-tf-state-s3"
     key = "global/s3/terraform.tfstate"
-    region = "us-eat-2"
+    region = "us-east-2"
 
     dynamodb_table = "prem-tf-state-lock-dyna"
     encrypt = true
