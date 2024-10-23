@@ -67,3 +67,24 @@ output "prem_tf_state_dynamodb_table_name" {
   value = aws_dynamodb_table.prem_tf_state_lock_dyna.name
   description = "Prem TF state lock dynamodb table name"
 }
+// EOF for TF state using TF backend
+
+/** 
+* Isolation using Workspaces
+* The below blocks are for TF state using TF workspaces
+*/
+resource "aws_instance" "prem_tf_workspace-ec2" {
+  instance_type="t2.micro"
+  ami="ami-0e86e20dae9224db8"
+  subnet_id="subnet-04edb3ea22236883e"
+}
+
+terraform {
+  backend "s3" {
+    bucket = "prem-tf-state-s3"
+    key = "workspaces/terraform.tfstate"
+    region = "us-east-2"
+    dynamodb_table = "prem-tf-state-lock-dyna"
+    encrypt = true
+  }
+}
